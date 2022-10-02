@@ -1,0 +1,81 @@
+{
+  "name": "sonny",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/sonny/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/sonny",
+        "index": "apps/sonny/src/index.html",
+        "baseHref": "/",
+        "main": "apps/sonny/src/main.tsx",
+        "polyfills": "apps/sonny/src/polyfills.ts",
+        "tsConfig": "apps/sonny/tsconfig.app.json",
+        "assets": ["apps/sonny/src/favicon.ico", "apps/sonny/src/assets"],
+        "styles": ["apps/sonny/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/sonny/src/environments/environment.ts",
+              "with": "apps/sonny/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "sonny:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sonny:build:development"
+        },
+        "production": {
+          "buildTarget": "sonny:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sonny/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/sonny"],
+      "options": {
+        "jestConfig": "apps/sonny/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
